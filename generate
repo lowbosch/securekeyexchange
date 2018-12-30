@@ -1,0 +1,11 @@
+#!/bin/python3
+import sys
+if len(sys.argv) != 3:
+    print("Apends key-material to the key-material file specified.\nUsage: ./generate.py size outfilename")
+    sys.exit(0)
+size = int(sys.argv[1])
+filename = sys.argv[2]
+with open('/dev/random', 'rb') as ifile:
+    with open(filename, 'ab') as ofile:
+        for i in range(0,size):
+            ofile.write(ifile.read(1))

@@ -1,0 +1,18 @@
+#!/bin/python3
+from common import crypt
+import sys
+from binascii import unhexlify
+
+if len(sys.argv) != 3:
+    print("Decrypts ciphertext given with offset and in hexlified form, with keymaterial from the file ./keymaterial\nUsage: ./decrypt offset deadbeef")
+    sys.exit(0)
+
+offset=int(sys.argv[1])
+cipher = unhexlify(sys.argv[2].encode())
+text = crypt(cipher, offset).decode()
+print(text)
+with open("currentoffset", 'r') as f:
+    tmp = int(f.readline())
+if tmp < offset+len(cipher):
+    with open("currentoffset", 'w') as f:
+        f.write(str(offset+len(cipher)))

@@ -1,0 +1,16 @@
+#!/bin/python3
+from common import crypt
+import sys
+from binascii import hexlify
+
+if len(sys.argv) != 2:
+    print("Encrypts Text given with keymaterial from the file ./keymaterial\nUsage: ./encrypt \"Text or Password here\"")
+    sys.exit(0)
+
+text = sys.argv[1].encode()
+with open("currentoffset", 'r') as f:
+    offset = int(f.readline())
+    cipher = hexlify(crypt(text, offset)).decode()
+    print("%d %s" % (offset, cipher))
+with open("currentoffset", 'w') as f:
+    f.write(str(offset+len(text)))
